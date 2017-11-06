@@ -5,6 +5,8 @@ import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import java.util.ArrayList;
 
@@ -68,6 +70,7 @@ public final class QueryUtils {
                 String place = properties.getString("place");
                 long time = properties.getLong("time");
 
+                //Create a new Earthquake object with the retrieved data and add it to the ArrayList
                 earthquakes.add(new Earthquake(mag, place, time));
 
             }

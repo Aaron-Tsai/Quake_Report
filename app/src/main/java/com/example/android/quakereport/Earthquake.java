@@ -5,26 +5,30 @@ package com.example.android.quakereport;
  */
 
 public class Earthquake {
-    private double magnitude = 0;
-    private String location = "Pacific Ocean";
-    private long date = 0;
+    private double mMagnitude = 0;
+    private String mLocation = "Pacific Ocean";
+    private long mTimeInMilliseconds = 0;
 
-
-    public Earthquake(double m, String l, long d ) {
-        magnitude = m;
-        location = l;
-        date = d;
-
+    public Earthquake(double magnitude, String location, long timeInMilliseconds) {
+        mMagnitude = magnitude;
+        mLocation = location;
+        mTimeInMilliseconds = timeInMilliseconds;
     }
 
     public double getMagnitude() {
-        return magnitude;
+        return mMagnitude;
     }
     public String getLocation(){
-        return location;
+        return mLocation;
     }
     public long getDate() {
-        return date;
+        return mTimeInMilliseconds;
     }
 
+    /**
+     * Returns the time of the earthquake.
+     */
+    public long getTimeInMilliseconds() {
+        return mTimeInMilliseconds;
+    }
 }
