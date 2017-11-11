@@ -70,9 +70,10 @@ public final class QueryUtils {
                 double mag = properties.getDouble("mag");
                 String place = properties.getString("place");
                 long time = properties.getLong("time");
+                String url = properties.getString("url");
 
                 //Create a new Earthquake object with the retrieved data and add it to the ArrayList
-                earthquakes.add(new Earthquake(mag, place, time));
+                earthquakes.add(new Earthquake(mag, place, time, url));
 
             }
 

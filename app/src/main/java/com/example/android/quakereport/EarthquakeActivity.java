@@ -15,8 +15,12 @@
  */
 package com.example.android.quakereport;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -32,7 +36,8 @@ public class EarthquakeActivity extends AppCompatActivity {
         setContentView(R.layout.earthquake_activity);
 
         // Create a fake list of earthquakes.
-        ArrayList<Earthquake> earthquakes = QueryUtils.extractEarthquakes();
+        //declare the arraylist final so we can set an item click listener on it
+        final ArrayList<Earthquake> earthquakes = QueryUtils.extractEarthquakes();
 
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
@@ -44,5 +49,22 @@ public class EarthquakeActivity extends AppCompatActivity {
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         earthquakeListView.setAdapter(adapter);
+
+        //attaching an onItemClickListener to the listview in order to send url intent
+        //(new AdapterView.OnItemClickListener) is the anonymous inner class and onItemClick() is the corresponding overridden method
+        earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //we want this method to send an intent that opens the url in a browser
+                //create variable currentEarthquake representing the item we're currently on in the listview
+                Earthquake currentEarthquake = earthquakes.get(position);
+                //create the intent object
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                //attach the current Earthquake item's url to the intent
+                i.setData(Uri.parse(currentEarthquake.getUrl()));
+                //execute
+                startActivity(i);
+            }
+        });
     }
 }

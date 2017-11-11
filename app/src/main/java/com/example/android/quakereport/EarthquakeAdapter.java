@@ -78,6 +78,8 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         // Display the time of the current earthquake in that TextView
         timeView.setText(formattedTime);
 
+
+
         return listItemView;
     }
 
