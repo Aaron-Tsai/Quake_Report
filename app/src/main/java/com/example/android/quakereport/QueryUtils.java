@@ -1,5 +1,7 @@
 package com.example.android.quakereport;
 
+import android.app.Activity;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -24,6 +26,12 @@ import java.util.ArrayList;
  * Helper methods related to requesting and receiving earthquake data from USGS.
  */
 public final class QueryUtils {
+
+    /** Tag for the log messages */
+    public static final String LOG_TAG = EarthquakeActivity.class.getSimpleName();
+
+    private static final String USGS_REQUEST_URL =
+            "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2012-01-01&endtime=2012-12-01&minmagnitude=6";
 
     /**
      * Sample JSON response for a USGS query
@@ -64,6 +72,8 @@ public final class QueryUtils {
             // TODO: Parse the response given by the SAMPLE_JSON_RESPONSE string and
             // build up a list of Earthquake objects with the corresponding data.
 
+
+
             //Creating the root
             JSONObject root = new JSONObject(SAMPLE_JSON_RESPONSE);
 
@@ -95,65 +105,9 @@ public final class QueryUtils {
 
         // Return the list of earthquakes
         return earthquakes;
+
+
     }
 
-    //This method attempts to connect to the USGS website
-    private String makeHttpRequest(URL url) throws IOException {
-        String jsonResponse = "";
-        HttpURLConnection urlConnection = null;
-        InputStream inputStream = null;
-        try {
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setReadTimeout(10000 /* milliseconds */);
-            urlConnection.setConnectTimeout(15000 /* milliseconds */);
-            urlConnection.connect();
-
-            //test to see if the connection is GUCCI before parsing. 200 means good connection
-            if(urlConnection.getResponseCode() == 200) {
-                inputStream = urlConnection.getInputStream();
-                jsonResponse = readFromStream(inputStream);
-            }
-        } catch (IOException e) {
-
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-            if (inputStream != null) {
-                // function must handle java.io.IOException here
-                inputStream.close();
-            }
-        }
-        return jsonResponse;
-    }
-
-    //Once a connection has been established to the website, this method reads in the data and returns a string that resembles the original SAMPLE_JSON_RESPONSE
-    private String readFromStream(InputStream inputStream) throws IOException {
-        StringBuilder output = new StringBuilder();
-        if (inputStream != null) {
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
-            BufferedReader reader = new BufferedReader(inputStreamReader);
-            String line = reader.readLine();
-            while (line != null) {
-                output.append(line);
-                line = reader.readLine();
-            }
-        }
-        return output.toString();
-    }
-
-    /**
-     * Returns new URL object from the given string URL.
-     */
-    private static URL createUrl(String stringUrl) {
-        URL url = null;
-        try {
-            url = new URL(stringUrl);
-        } catch (MalformedURLException e) {
-            Log.e("xd", "Error with creating URL ", e);
-        }
-        return url;
-    }
 
 }
